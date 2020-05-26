@@ -100,7 +100,9 @@ class TestTrie:
             "appetite"
         ]
         [trie.add_word(word) for word in initial_word_list]
-        assert collections.Counter(trie.search_phrase("ap", max_len_closest_words=max_results_count)) == collections.Counter(initial_word_list)
+        assert (collections.Counter(
+            trie.search_phrase("ap", max_len_closest_words=max_results_count))
+            == collections.Counter(initial_word_list))
 
     def test_search_phrase_max(self):
         trie = Trie()
@@ -112,11 +114,10 @@ class TestTrie:
             "appetite"
         ]
         [trie.add_word(word) for word in initial_word_list]
-        
         max_results_count = 2
-        result = trie.search_phrase(initial_word_list[0], max_len_closest_words=max_results_count)
-
-        assert len(result)==max_results_count
+        result = trie.search_phrase(initial_word_list[0],
+                                    max_len_closest_words=max_results_count)
+        assert len(result) == max_results_count
         assert all(word in initial_word_list for word in result)
 
     def test_invalid_phrase(self):
@@ -130,11 +131,10 @@ class TestTrie:
             "appetite"
         ]
         [trie.add_word(word) for word in initial_word_list]
-        
         max_results_count = 2
-        result = trie.search_phrase(invalid_phrase, max_len_closest_words=max_results_count)
-
-        assert len(result)==0
+        result = trie.search_phrase(invalid_phrase,
+                                    max_len_closest_words=max_results_count)
+        assert len(result) == 0
 
     def test_is_empty(self):
         trie = Trie()

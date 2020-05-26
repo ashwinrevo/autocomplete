@@ -1,6 +1,5 @@
 #! /usr/bin/env python
 
-import os
 import logging
 import collections
 
@@ -51,7 +50,8 @@ class Trie:
                 if len(closest_words) == max_len_closest_words:
                     break
 
-            for new_char, child_trie_node in current_trie_node.children.items():
+            for new_char, child_trie_node \
+                    in current_trie_node.children.items():
                 queue.append((child_trie_node, word_so_far + new_char))
 
         return closest_words
@@ -61,28 +61,27 @@ class Trie:
         word = self._sanitize_word(word)
         status, current_trie_node = self._traverse_trie(word)
         return status and current_trie_node and current_trie_node.is_word
-        
+
     def add_word(self, new_word) -> bool:
-        """Add a word back in to the trie. Sets is_word=True in the end to indicate valid word"""
-
+        """Add a word back in to the trie"""
         new_word = self._sanitize_word(new_word)
-
         current_trie_node = self.root
         for char in new_word:
             if char not in current_trie_node.children:
                 new_trie_node = TrieNode()
                 current_trie_node.children[char] = new_trie_node
             current_trie_node = current_trie_node.children[char]
-        
         current_trie_node.is_word = True
         return True
 
     def remove_word(self, remove_word):
-        """Remove word from trie. Additionally deletes the TrieNode if no other valid word ending goes down the same path"""
+        """Remove word from trie.
+           Additionally deletes the TrieNode if invalid"""
         remove_word = self._sanitize_word(remove_word)
-        
         trie_node_iteration_stack = []
-        status, current_trie_node = self._traverse_trie(remove_word, maintain_stack=True, trie_node_iteration_stack=trie_node_iteration_stack)
+        status, current_trie_node = self._traverse_trie(
+            remove_word, maintain_stack=True,
+            trie_node_iteration_stack=trie_node_iteration_stack)
         if not status:
             return False
 
@@ -90,7 +89,7 @@ class Trie:
             return False
 
         current_trie_node.is_word = False
-        while (not current_trie_node.children and 
+        while (not current_trie_node.children and
                current_trie_node is not self.root and
                not current_trie_node.is_word):
             current_char, previous_trie_node = trie_node_iteration_stack.pop()
@@ -100,25 +99,23 @@ class Trie:
 
         return True
 
-####  HELPER FUNCTIONS  ####
+# ##################### #
+# # HELPER FUNCTIONS  # #
+# ##################### #
 
     def _sanitize_word(self, word: str) -> str:
         word = word.strip()
         return word if self.is_case_sensitive else word.lower()
 
-    def _traverse_trie(self, word: str, maintain_stack:bool=False, trie_node_iteration_stack=None):
+    def _traverse_trie(self, word: str, maintain_stack: bool = False,
+                       trie_node_iteration_stack=None):
         current_trie_node = self.root
-        
         if maintain_stack:
-            assert isinstance(trie_node_iteration_stack, list) 
-    
+            assert isinstance(trie_node_iteration_stack, list)
         for char in word:
             if char not in current_trie_node.children:
                 return False, None
-
             if maintain_stack:
                 trie_node_iteration_stack.append((char, current_trie_node))
-    
             current_trie_node = current_trie_node.children[char]
-
         return True, current_trie_node
