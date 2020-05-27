@@ -10,7 +10,9 @@ def get_artifact_directory() -> str:
         os.path.join(current_dir, "../..", "artifacts")
     ]
     artifacts_dir = list(filter(os.path.isdir, artifacts_dir))
-    return artifacts_dir[0] if artifacts_dir else FileNotFoundError("Can't locate artifacts directory to load dictionary text")
+    if artifacts_dir:
+        return artifacts_dir[0]
+    return FileNotFoundError("Can't locate artifacts directory")
 
 
 def get_dictionary_files():
@@ -21,11 +23,14 @@ def get_dictionary_files():
         if fname not in ignore_files:
             yield os.path.join(artifact_directory, fname)
 
+
 def get_dictionary_test_files():
     test_file_names = ['words_alpha_test.txt']
     artifact_directory = get_artifact_directory()
 
-    test_files_with_dir = list(map(lambda fname: os.path.join(artifact_directory, fname), test_file_names))
+    test_files_with_dir = list(map(lambda fname:
+                                   os.path.join(artifact_directory, fname),
+                                   test_file_names))
     for fname in get_dictionary_files():
         if fname in test_files_with_dir:
             yield fname
