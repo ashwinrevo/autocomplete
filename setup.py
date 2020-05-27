@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # Learn more: https://github.com/kennethreitz/setup.py
 import os
-import re
 import sys
 
 from codecs import open
@@ -10,6 +9,7 @@ from setuptools import setup
 from setuptools.command.test import test as TestCommand
 
 here = os.path.abspath(os.path.dirname(__file__))
+
 
 class PyTest(TestCommand):
     user_options = [('pytest-args=', 'a', "Arguments to pass into py.test")]
@@ -33,6 +33,7 @@ class PyTest(TestCommand):
         errno = pytest.main(self.pytest_args)
         sys.exit(errno)
 
+
 # 'setup.py publish' shortcut.
 if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist bdist_wheel')
@@ -42,17 +43,16 @@ if sys.argv[-1] == 'publish':
 packages = ['autocomplete']
 
 requires = [
+    'flask==1.1.1'
 ]
 test_requirements = [
-    'pytest-httpbin==0.0.7',
     'pytest-cov',
-    'pytest-mock',
-    'pytest-xdist',
     'pytest>=3'
 ]
 
 about = {}
-with open(os.path.join(here, 'autocorrect', '__version__.py'), 'r', 'utf-8') as f:
+with open(os.path.join(here, 'autocorrect', '__version__.py'),
+          'r', 'utf-8') as f:
     exec(f.read(), about)
 
 with open('README.md', 'r', 'utf-8') as f:
