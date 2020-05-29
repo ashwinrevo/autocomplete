@@ -2,12 +2,35 @@
 <html>
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 </head>
 <body>
-    <input type="text" id = "livebox" spellcheck="false"> 
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">RememberIt!</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                About Us
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="#">Blog</a>
+                <a class="dropdown-item" href="#">Contact Us</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+    </nav>
+    <input type="text" id = "livebox" spellcheck="false">
     <p id = "datalist"></p>
 </body>
-<script>
+    <script>
     $(document).ready(function(){
         $("#livebox").on("input",function(e){
             $("#datalist").empty();
@@ -18,7 +41,7 @@
                 success:function(res){
                     var data = "<ul>";
                     $.each(res,function(index,value){
-                        data += "<li>"+value+"</li>";
+                        data += "<ul>"+value+"</ul>";
                     });
                     data += "</ul>";
                     $("#datalist").html(data);
@@ -26,5 +49,5 @@
             });
         });
     });
-</script>
+    </script>
 </html>
