@@ -43,7 +43,7 @@ if sys.argv[-1] == 'publish':
 packages = ['autocomplete']
 
 requires = [
-    'flask==1.1.1'
+    'flask==2.2.5'
 ]
 test_requirements = [
     'pytest-cov',
